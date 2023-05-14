@@ -6,8 +6,8 @@
 
 void startShell()
 {
-	char *prompt = "(simple_shell:)";
-	printf("%s", prompt);
+	char prompt [100]= "(simple_shell:)";
+	write(STDOUT_FILENO, &prompt, 50);
 }
 
 
