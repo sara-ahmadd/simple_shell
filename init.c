@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * start_shell - print the prompt on starting the shell
+ * startShell - print the prompt on starting the shell
  */
 
 void startShell()
