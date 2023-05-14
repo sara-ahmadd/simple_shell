@@ -8,7 +8,6 @@
 void execcmd(char *argv[])
 {
 	char *cmd = NULL, *path;
-	char comm[100];
 	int x;
 
 	if (argv)
@@ -18,7 +17,6 @@ void execcmd(char *argv[])
 		x = execve(path, argv, NULL);
 		if (x == -1)
 		{
-			strcpy(comm, argv[0]);
 			perror("Error: ");
 		}
 	}
