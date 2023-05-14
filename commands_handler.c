@@ -1,12 +1,12 @@
 #include "main.h"
 
 /**
- * comm_handle - handle commands
+ * commands_handler - handle commands
  * @argv: list of arguments to program
  *
  * Retrun: void 
  */
-void comm_handle(char *argv[])
+void commands_handler(char *argv[])
 {
 
 	if (strcmp(argv[0], "env") == 0)

@@ -13,5 +13,5 @@ void execcmd(char **argv);
 char *getPath(char *command);
 void exit_shell(char *argv[]);
 int change_dir(char *argv[]);
-void comm_handle(char *argv[]);
+void commands_handler(char *argv[]);
 #endif
