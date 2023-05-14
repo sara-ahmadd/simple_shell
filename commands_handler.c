@@ -9,9 +9,9 @@
 void comm_handle(char *argv[])
 {
 
-	if (strcmp(argv[0], "cd") == 0)
+	if (strcmp(argv[0], "env") == 0)
 	{
-		change_dir(argv);
+		env_handler(argv);
 	}
 	else 
 	{
