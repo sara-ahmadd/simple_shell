@@ -7,7 +7,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+
 void init();
 void execcmd(char **argv);
 char *getPath(char *command);
+void exit_shell(char *argv[]);
 #endif
