@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * startShell - print the prompt on starting the shell
@@ -7,7 +7,7 @@
 void startShell()
 {
 	char prompt [100]= "(simple_shell:)";
-	write(STDOUT_FILENO, &prompt, 50);
+	write(STDOUT_FILENO,&prompt, 100);
 }
 
 

@@ -8,10 +8,19 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
+
+char *currentDirectory;
+int init_mode;
+extern char **environ;
+
 void init();
-void execcmd(char **argv);
+int execcmd(char **argv);
 char *getPath(char *command);
 void exit_shell(char *argv[]);
 int change_dir(char *argv[]);
-void commands_handler(char *argv[]);
+int commands_handler(char *argv[]);
+void env_vars(char *argv[]);
+int set_env(char **argv);
+int unset_env(char **argv);
+void print_env(char *argv[]);
 #endif

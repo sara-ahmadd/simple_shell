@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * commands_handler - handle commands
@@ -6,38 +6,35 @@
  *
  * Retrun: void 
  */
-void commands_handler(char *argv[])
+int commands_handler(char *argv[])
 {
-
 	if (strcmp(argv[0], "env") == 0)
 	{
-		env_handler(argv);
+		env_vars(argv);
 	}
-	else 
+	else if (strcmp(argv[0], "printenv") == 0)
 	{
-		execcmd(argv);
+		print_env(argv);
 	}
-}
-/**
- * change_dir - change directory
- * @argv: array of arguments
- *
- * Return: 0 on success
- */
-int change_dir(char *argv[])
-{
-	if (argv[1] == NULL)
+	else if (strcmp(argv[0], "setenv") == 0)
 	{
-		chdir(getenv("HOME"));
-		return (1);
+		set_env(argv);
+	}
+	else if (strcmp(argv[0], "unsetenv") == 0)
+	{
+		unset_env(argv);
+	}
+	else if (strcmp(argv[0], "exit") == 0)
+	{
+		exit_shell(argv);
+	}
+	else if (strcmp(argv[0], "cd") == 0)
+	{
+		change_dir(argv);
 	}
 	else
 	{
-		if (chdir(argv[1]) == -1)
-		{
-			printf("%s: no such directory is found.\n", argv[1]);
-			return (-1);
-		}
+		execcmd(argv);
 	}
-	return (0);
+	return (1);
 }
