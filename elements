@@ -1,0 +1,28 @@
+/**
+ * print_list - function that prints all the elements of a list_t list.
+ * @h: a singly linked list
+ * Return: the number of nodes
+ */
+
+size_t print_list(const node *h)
+{
+	size_t count = 0;
+
+	while (h != NULL)
+	{
+		if (h->data == NULL)
+		{
+			perror("node->str");
+			return (-1);
+		}
+		else
+		{
+			write(STDOUT_FILENO, h->data, h->len);
+			write(STDOUT_FILENO, "\n", 1);
+		}
+		count++;
+		h = h->next;
+	}
+
+	return (count);
+}
