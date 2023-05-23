@@ -10,10 +10,9 @@
 
 void start_shell(void)
 {
-	char *prompt = "(Myshell:)";
-	char *currentDirectory = NULL;
+	char *prompt = "(Simple_Shell:)";
 
-	printf("%s>%s# ", prompt, getcwd(currentDirectory, 1024));
+	printf("%s# ", prompt);
 }
 /**
  * change_dir - change directory
