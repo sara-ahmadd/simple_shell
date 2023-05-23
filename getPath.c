@@ -9,10 +9,10 @@
 
 void helper(char *file_path, char *command, char *token)
 {
-	strcpy(file_path, token);
-	strcat(file_path, "/");
-	strcat(file_path, command);
-	strcat(file_path, "\0");
+	str_cpy(file_path, token);
+	str_cat(file_path, "/");
+	str_cat(file_path, command);
+	str_cat(file_path, "\0");
 }
 
 
@@ -36,12 +36,12 @@ char *getPath(char *command)
 		dprintf(STDERR_FILENO, "The entered variable %s is not found.\n", env);
 		exit(1);
 	}
-	cmd_len = strlen(command);
-	path_copy = strdup(path);
+	cmd_len = str_len(command);
+	path_copy = str_dup(path);
 	token = strtok(path_copy, ":");
 	while (token != NULL)
 	{
-		token_len = strlen(token);
+		token_len = str_len(token);
 		file_path = malloc(token_len + cmd_len + (2 * sizeof(char)));
 		helper(file_path, command, token);
 		i = stat(file_path, &buff);

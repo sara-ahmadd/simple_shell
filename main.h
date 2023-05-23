@@ -8,8 +8,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <signal.h>
-#include <termios.h>
-
+#include <fcntl.h>
 
 #define MAX_HISTORY 150
 #define MAX_CHAR 100
@@ -33,6 +32,7 @@ typedef struct list_s
 /*list of environment variables*/
 extern char **environ;
 
+/*program functions*/
 void start_shell(void);
 void init(void);
 void env_vars(char *argv[]);
@@ -40,7 +40,7 @@ void comm_handle(char *argv[]);
 int change_dir(char *argv[]);
 void exit_builtin(char *argv[]);
 int execcmd(char **argv);
-char *_getenv(const char *name);
+char *_getenv(char *name);
 char *getPath(char *command);
 int my_system(char *command);
 int set_env(char **argv);
@@ -52,5 +52,12 @@ list_t *insert_node_end(list_t **root, char *str1, char *str2);
 list_t *environ_vars_list(void);
 int remove_node(char *var_name);
 list_t *vars_list;
+
+/*string functions*/
+char *str_cpy(char *dest, char *src);
+int str_cmp(char *s1, char *s2);
+char *str_dup(char *src);
+int str_len(char *str);
+char *str_cat(char *s1, char *s2);
 
 #endif

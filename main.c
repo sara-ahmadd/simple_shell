@@ -11,8 +11,9 @@
 void start_shell(void)
 {
 	char *prompt = "(Simple_Shell:)";
+	char *currentDirectory = NULL;
 
-	printf("%s# ", prompt);
+	printf("%s>%s# ", prompt, getcwd(currentDirectory, 1024));
 }
 /**
  * change_dir - change directory
@@ -27,7 +28,7 @@ int change_dir(char *argv[])
 		chdir(_getenv("HOME"));
 		return (1);
 	}
-	else if (strcmp(argv[1], "-") == 0)
+	else if (str_cmp(argv[1], "-") == 0)
 	{
 		chdir("/");
 		return (1);
@@ -64,7 +65,7 @@ char **tokenize(char *argv[], ssize_t chars_read, char *lineptr, char *linecpy)
 	linecpy = malloc(sizeof(char) * chars_read);
 	if (linecpy == NULL)
 		free(lineptr);
-	strcpy(linecpy, lineptr);
+	str_cpy(linecpy, lineptr);
 	token = strtok(lineptr, delims);
 	while (token != NULL)
 	{
@@ -92,7 +93,7 @@ char **tokenize(char *argv[], ssize_t chars_read, char *lineptr, char *linecpy)
 			free(lineptr);
 			exit(0);
 		}
-		strcpy(argv[i], token);
+		str_cpy(argv[i], token);
 		token = strtok(NULL, delims);
 	}
 	return (argv);

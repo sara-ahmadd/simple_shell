@@ -21,9 +21,9 @@ int set_env(char *argv[])
 	{
 		for (curr = vars_list; curr != NULL; curr = curr->next)
 		{
-			if (strcmp(curr->var_name, argv[1]) == 0)
+			if (str_cmp(curr->var_name, argv[1]) == 0)
 			{
-				strcpy(curr->var_value, argv[2]);
+				str_cpy(curr->var_value, argv[2]);
 				return (1);
 			}
 		}

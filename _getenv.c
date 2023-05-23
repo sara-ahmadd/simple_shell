@@ -8,7 +8,7 @@
  */
 
 
-char *_getenv(const char *name)
+char *_getenv(char *name)
 {
 	list_t *curr;
 
@@ -21,7 +21,7 @@ char *_getenv(const char *name)
 		curr = vars_list;
 		while (curr != NULL)
 		{
-			if (strcmp(curr->var_name, name) == 0)
+			if (str_cmp(curr->var_name, name) == 0)
 			{
 				return (curr->var_value);
 			}

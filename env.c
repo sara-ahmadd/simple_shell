@@ -12,7 +12,7 @@ void env_vars(char *argv[])
 	list_t *curr;
 	char cwd[200];
 
-	if (strcmp(argv[0], "env") == 0)
+	if (str_cmp(argv[0], "env") == 0)
 	{
 		if (getcwd(cwd, sizeof(cwd)) == NULL)
 		{
@@ -20,9 +20,14 @@ void env_vars(char *argv[])
 		}
 		for (curr = vars_list; curr != NULL; curr = curr->next)
 		{
-			if (strcmp(curr->var_name, "PWD") == 0)
+			if (str_cmp(curr->var_name, "PWD") == 0)
 			{
-				curr->var_value = strdup(cwd);
+				curr->var_value = str_dup(cwd);
+				if (!curr->var_value)
+				{
+					free(curr);
+					return;
+				}
 			}
 			printf("%s=%s\n", curr->var_name, curr->var_value);
 		}

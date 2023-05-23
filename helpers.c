@@ -20,7 +20,7 @@ list_t *insert_node_end(list_t **root, char *str1, char *str2)
 	new_node->next = NULL;
 	if (str1)
 	{
-		new_node->var_name = strdup(str1);
+		new_node->var_name = str_dup(str1);
 		if (!new_node->var_name)
 		{
 			free(new_node);
@@ -29,7 +29,7 @@ list_t *insert_node_end(list_t **root, char *str1, char *str2)
 	}
 	if (str2)
 	{
-		new_node->var_value = strdup(str2);
+		new_node->var_value = str_dup(str2);
 		if (!new_node->var_value)
 		{
 			free(new_node);
@@ -91,7 +91,7 @@ int remove_node(char *var_name)
 	}
 	for (curr = vars_list; curr->next != NULL; curr = curr->next)
 	{
-		if (strcmp(curr->next->var_name, var_name) == 0)
+		if (str_cmp(curr->next->var_name, var_name) == 0)
 		{
 			list_t *temp = curr->next;
 
@@ -102,19 +102,3 @@ int remove_node(char *var_name)
 	}
 	return (1);
 }
-
-
-/*
- * void main(void)
- * {
- *	list_t *myList, *curr;
- *	myList = environ_vars_list();
- *
- *	:q
- *	for (curr = myList; curr != NULL; curr = curr->next)
- *	{
- *		printf("%s=%s\n", curr->var_name, curr->var_value);
- *	}
- *
- * }
-*/
