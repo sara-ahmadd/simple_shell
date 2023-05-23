@@ -1,12 +1,13 @@
-#include "shell.h"
+#include "main.h"
 
 /**
- * commands_handler - handle commands
+ * comm_handle - handle commands
  * @argv: list of arguments to program
  *
- * Retrun: void 
+ * Return: void
  */
-int commands_handler(char *argv[])
+
+void comm_handle(char *argv[])
 {
 	if (strcmp(argv[0], "env") == 0)
 	{
@@ -26,7 +27,7 @@ int commands_handler(char *argv[])
 	}
 	else if (strcmp(argv[0], "exit") == 0)
 	{
-		exit_shell(argv);
+		exit_builtin(argv);
 	}
 	else if (strcmp(argv[0], "cd") == 0)
 	{
@@ -36,5 +37,4 @@ int commands_handler(char *argv[])
 	{
 		execcmd(argv);
 	}
-	return (1);
 }

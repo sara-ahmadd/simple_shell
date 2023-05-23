@@ -1,13 +1,13 @@
-#include "shell.h"
+#include "main.h"
 
 /**
- * exit_shell - exit the shell
+ * exit_builtin - exit the shell
  * @argv: list of arguments
  *
  * Return: void
  */
 
-void exit_shell(char *argv[])
+void exit_builtin(char *argv[])
 {
 	if (strcmp(argv[0], "exit") == 0)
 	{

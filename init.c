@@ -1,26 +1,18 @@
-#include "shell.h"
-
-/**
- * startShell - print the prompt on starting the shell
- */
-
-void startShell()
-{
-	char prompt [100]= "(simple_shell:)";
-	write(STDOUT_FILENO,&prompt, 100);
-}
+#include "main.h"
 
 
 /**
  * init - initialize the shell
  */
 
-void init()
+void init(void)
 {
+	int init_mode;
+
 	init_mode = isatty(STDIN_FILENO);
-	
+
 	if (init_mode == 1)
 	{
-		startShell();
+		start_shell();
 	}
 }

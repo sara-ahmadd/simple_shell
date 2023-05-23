@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "main.h"
 
 /**
  * set_env - set an environment variable
@@ -9,14 +9,36 @@
 
 int set_env(char *argv[])
 {
+	list_t *node, *curr;
 
-	if (argv[1] == NULL || argv[2] == NULL || setenv(argv[1], argv[2], 1) != 0)
+	if (argv[1] == NULL || argv[2] == NULL || vars_list == NULL)
 	{
-		write(STDERR_FILENO, "Few arguments or somthing went wrong\n", 50);
+		write(STDERR_FILENO, "too few arguments\n", 18);
 		return (-1);
 
 	}
-	return (-1);
+	else
+	{
+		for (curr = vars_list; curr != NULL; curr = curr->next)
+		{
+			if (strcmp(curr->var_name, argv[1]) == 0)
+			{
+				strcpy(curr->var_value, argv[2]);
+				return (1);
+			}
+		}
+		node = insert_node_end(&vars_list, argv[1], argv[2]);
+		if (node == NULL)
+		{
+			write(STDERR_FILENO, "something went wrong\n", 20);
+			return (-1);
+		}
+		else
+		{
+			return (1);
+		}
+	}
+	return (1);
 }
 
 /**
@@ -28,17 +50,24 @@ int set_env(char *argv[])
 
 int unset_env(char *argv[])
 {
-	if (argv[1] == NULL || getenv(argv[1]) == NULL)
+	char *var;
+
+	if (argv[1] == NULL)
 	{
-		write(STDERR_FILENO, "Too few arguments\n", 50);
+		write(STDERR_FILENO, "Too few arguments\n", 18);
 		return (-1);
 	}
-	else if (getenv(argv[1]) != NULL)
+	var = _getenv(argv[1]);
+
+	if (var != NULL)
 	{
-		unsetenv(argv[1]);
-		return (1);
+		remove_node(argv[1]);
 	}
-	return (-1);
+	else
+	{
+		return (-1);
+	}
+	return (1);
 }
 
 /**
@@ -49,23 +78,23 @@ int unset_env(char *argv[])
 void print_env(char *argv[])
 {
 	char *name;
-	int i;
+	list_t *curr;
 
-	name = getenv(argv[1]);
-
-	if (strcmp(argv[0], "printenv") == 0)
+	if (argv[1] == NULL)
 	{
-		if (argv[1] == NULL)
+		for (curr = vars_list; curr != NULL; curr = curr->next)
 		{
-			for (i = 0; environ[i] != NULL; i++)
-			{
-				printf("%s\n", environ[i]);
-			}
+			printf("%s=%s\n", curr->var_name, curr->var_value);
 		}
 	}
-	if (name != NULL)
+	if (argv[1] != NULL)
 	{
-		printf("%s\n", name);
+		name = _getenv(argv[1]);
+		if (name == NULL)
+		{
+			return;
+		}
+		printf("%s\n", name ? name : NULL);
 	}
 
 }

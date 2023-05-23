@@ -1,4 +1,8 @@
-#include "shell.h"
+#include "main.h"
+
+
+
+
 
 /**
  * start_shell - starting msg to my shell
@@ -7,8 +11,7 @@
 void start_shell(void)
 {
 	char *prompt = "(Myshell:)";
-
-	currentDirectory = (char *) calloc(1024, sizeof(char));
+	char *currentDirectory = NULL;
 
 	printf("%s>%s# ", prompt, getcwd(currentDirectory, 1024));
 }
@@ -22,7 +25,7 @@ int change_dir(char *argv[])
 {
 	if (argv[1] == NULL)
 	{
-		chdir(getenv("HOME"));
+		chdir(_getenv("HOME"));
 		return (1);
 	}
 	else if (strcmp(argv[1], "-") == 0)
@@ -110,7 +113,9 @@ int main(int argc, char **argv)
 	ssize_t chars_read;
 	size_t n;
 	char *lineptr = NULL, *linecpy = NULL;
+	char *currentDirectory = (char *) calloc(1024, sizeof(char));
 
+	vars_list = environ_vars_list();
 	(void)argc;
 	n = 0;
 	while (1)
@@ -126,7 +131,7 @@ int main(int argc, char **argv)
 		argv = tokenize(argv, chars_read, lineptr, linecpy);
 		if (argv[0] == NULL)
 			continue;
-		commands_handler(argv);
+		comm_handle(argv);
 		free(linecpy);
 		free(argv);
 	}
