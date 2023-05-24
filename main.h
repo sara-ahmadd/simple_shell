@@ -43,8 +43,8 @@ int execcmd(char **argv);
 char *_getenv(char *name);
 char *getPath(char *command);
 int my_system(char *command);
-int set_env(char **argv);
-int unset_env(char **argv);
+void set_env(char **argv);
+void unset_env(char **argv);
 void print_env(char *argv[]);
 
 /*linked list functions*/

@@ -34,7 +34,7 @@ int change_dir(char *argv[])
 		if (chdir(argv[1]) == -1)
 		{
 			printf("%s: no such directory is found.\n", argv[1]);
-			return (-1);
+			exit(0);
 		}
 	}
 	return (1);
@@ -51,16 +51,19 @@ int change_dir(char *argv[])
  * Return: the tokens resulted
  */
 
-char **tokenize(char *argv[], ssize_t chars_read, char *lineptr, char *linecpy)
+char **tokenize(char *argv[], ssize_t chars_read, char *lineptr)
 {
 	char *token;
 	const char *delims;
 	ssize_t tokens_count = 0, i, j;
+        char *linecpy = malloc(sizeof(char) * chars_read);
 
 	delims = " \n\t\r";
-	linecpy = malloc(sizeof(char) * chars_read);
 	if (linecpy == NULL)
+        {
 		free(lineptr);
+                exit(0);
+        }
 	str_cpy(linecpy, lineptr);
 	token = strtok(lineptr, delims);
 	while (token != NULL)
@@ -80,18 +83,20 @@ char **tokenize(char *argv[], ssize_t chars_read, char *lineptr, char *linecpy)
 	for (i = 0; token != NULL; i++)
 	{
 		argv[i] = malloc(sizeof(char) * strlen(token));
-		if (argv[i] == NULL)
-		{
-			for (j = 0; j < i; j++)
-				free(argv[j]);
-			free(argv);
-			free(linecpy);
-			free(lineptr);
-			exit(0);
-		}
+		 if (argv[i] == NULL)
+		 {
+		 	for (j = 0; j < i; j++)
+		 		free(argv[j]);
+		 	free(argv);
+		 	free(linecpy);
+		 	free(lineptr);
+		 	exit(0);
+		 }
+                
 		str_cpy(argv[i], token);
 		token = strtok(NULL, delims);
 	}
+        free(linecpy);
 	return (argv);
 }
 
@@ -108,8 +113,8 @@ int main(int argc, char **argv)
 {
 	ssize_t chars_read;
 	size_t n = 0;
-	char *lineptr = NULL, *linecpy = NULL;
-	char *currentDirectory = (char *) calloc(1024, sizeof(char));
+        int i = 0;
+	char *lineptr;
 
 	/*vars_list = environ_vars_list();*/
 	(void)argc;
@@ -119,19 +124,21 @@ int main(int argc, char **argv)
 		chars_read = getline(&lineptr, &n, stdin);
 		if (chars_read == -1)
 		{
-			printf("Exit Myshell\n");
 			free(lineptr);
-			return (-1);
+			exit(0);
 		}
-		argv = tokenize(argv, chars_read, lineptr, linecpy);
+		argv = tokenize(argv, chars_read, lineptr);
 		if (argv[0] == NULL)
 			continue;
-		comm_handle(argv);
-		free(linecpy);
-		free(argv);
+		comm_handle(argv);	
 	}
-	free(lineptr);
-	free(currentDirectory);
+        while (argv[i] != NULL)
+        {
+                free(argv[i]);
+                i++;
+        }
+        free(argv[i]);
+        free(argv);
 	/*free_list(vars_list);*/
 	return (0);
 }

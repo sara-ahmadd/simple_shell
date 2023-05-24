@@ -3,48 +3,43 @@
  * set_env - set an environment variable
  * @argv: list of arguments to the program
  *
- * Return: 1
+ * Return: void
  */
 
-int set_env(char *argv[])
+void set_env(char *argv[])
 {
 	if (argv[1] == NULL || argv[2] == NULL)
 	{
 		fprintf(stderr, "Too few arguments.\n");
-		return (-1);
 
 	}
 	if (setenv(argv[1], argv[2], 1) != 0)
 	{
 		perror("Error ");
         }
-        return (1);
 }
 
 /**
  * unset_env - remove an environment variable
  * @argv: list of arguments to the program
  *
- * Return: 1
+ * Return: void
  */
 
-int unset_env(char *argv[])
+void unset_env(char *argv[])
 {
 	if (argv[1] == NULL)
 	{
-		fprintf(stderr, "Too few arguments");
-		return (-1);
+		fprintf(stderr, "Too few arguments.\n");
 	}
 	if (getenv(argv[1]) != NULL)
 	{
 		unsetenv(argv[1]);
-		return (1);
 	}
 	else
 	{
 		perror("Variable doesnot exist");
-	}
-	return (1);
+        }
 }
 
 /**
