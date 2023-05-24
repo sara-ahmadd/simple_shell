@@ -26,14 +26,16 @@ int change_dir(char *argv[])
 	}
 	else if (str_cmp(argv[1], "-") == 0)
 	{
-		chdir("/");
+		chdir(getenv("PWD"));
+                fprintf(stdout, "%s\n", getenv("PWD"));
 		return (1);
 	}
 	else
 	{
 		if (chdir(argv[1]) == -1)
 		{
-			printf("%s: no such directory is found.\n", argv[1]);
+                        printf("%s\n", getenv("PWD"));
+			fprintf(stderr, "./hsh: 1: cd: can't cd to %s\n", argv[1]);
 			exit(0);
 		}
 	}
