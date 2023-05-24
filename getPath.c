@@ -28,12 +28,13 @@ char *getPath(char *command)
 	char *path, *env, *path_copy, *token, *file_path;
 	int i, j, cmd_len, token_len;
 	struct stat buff;
+	char err[50] = "The entered variable %s is not found.\n";
 
 	env = "PATH";
 	path = _getenv(env);
 	if (!path)
 	{
-		dprintf(STDERR_FILENO, "The entered variable %s is not found.\n", env);
+		write(STDERR_FILENO, &err, 40);
 		exit(1);
 	}
 	cmd_len = str_len(command);

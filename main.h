@@ -52,6 +52,7 @@ list_t *insert_node_end(list_t **root, char *str1, char *str2);
 list_t *environ_vars_list(void);
 int remove_node(char *var_name);
 list_t *vars_list;
+void free_list(list_t *head);
 
 /*string functions*/
 char *str_cpy(char *dest, char *src);

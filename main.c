@@ -11,9 +11,8 @@
 void start_shell(void)
 {
 	char *prompt = "(Simple_Shell:)";
-	char *currentDirectory = NULL;
 
-	printf("%s>%s# ", prompt, getcwd(currentDirectory, 1024));
+	printf("%s ", prompt);
 }
 /**
  * change_dir - change directory
@@ -137,5 +136,6 @@ int main(int argc, char **argv)
 	}
 	free(lineptr);
 	free(currentDirectory);
+	free_list(vars_list);
 	return (0);
 }
