@@ -16,7 +16,7 @@ list_t *insert_node_end(list_t **root, char *str1, char *str2)
 	list_t *curr;
 
 	if (new_node == NULL || root == NULL)
-		exit(1);
+		exit(0);
 	new_node->next = NULL;
 	if (str1)
 	{
@@ -24,7 +24,7 @@ list_t *insert_node_end(list_t **root, char *str1, char *str2)
 		if (!new_node->var_name)
 		{
 			free(new_node);
-			exit(1);
+			exit(0);
 		}
 	}
 	if (str2)
@@ -33,7 +33,7 @@ list_t *insert_node_end(list_t **root, char *str1, char *str2)
 		if (!new_node->var_value)
 		{
 			free(new_node);
-			exit(1);
+			exit(0);
 		}
 	}
 	curr = *root;
@@ -61,8 +61,8 @@ list_t *environ_vars_list(void)
 	token = strtok(environ[0], "=");
 	tok_2 = strtok(NULL, "=");
 	root->next = NULL;
-	root->var_name = token;
-	root->var_value = tok_2;
+	root->var_name = str_dup(token);
+	root->var_value = str_dup(tok_2);
 
 	for (i = 1; environ[i] != NULL; i++)
 	{
@@ -87,7 +87,7 @@ int remove_node(char *var_name)
 
 	if (vars_list == NULL || var_name == NULL)
 	{
-		return (-1);
+		exit (0);
 	}
 	for (curr = vars_list; curr->next != NULL; curr = curr->next)
 	{

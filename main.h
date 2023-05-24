@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <fcntl.h>
 
 #define MAX_HISTORY 150
 #define MAX_CHAR 100
@@ -34,7 +35,7 @@ extern char **environ;
 /*program functions*/
 void start_shell(void);
 void init(void);
-void env_vars(char *argv[]);
+void env_vars(void);
 void comm_handle(char *argv[]);
 int change_dir(char *argv[]);
 int exit_builtin(void);
@@ -50,7 +51,6 @@ void print_env(char *argv[]);
 list_t *insert_node_end(list_t **root, char *str1, char *str2);
 list_t *environ_vars_list(void);
 int remove_node(char *var_name);
-list_t *vars_list;
 void free_list(list_t *head);
 
 /*string functions*/
@@ -59,5 +59,8 @@ int str_cmp(char *s1, char *s2);
 char *str_dup(char *src);
 int str_len(char *str);
 char *str_cat(char *s1, char *s2);
+
+
+
 
 #endif

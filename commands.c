@@ -11,7 +11,7 @@ void comm_handle(char *argv[])
 {
 	if (str_cmp(argv[0], "env") == 0)
 	{
-		env_vars(argv);
+		env_vars();
 	}
 	else if (str_cmp(argv[0], "printenv") == 0)
 	{

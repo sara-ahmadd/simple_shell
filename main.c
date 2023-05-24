@@ -1,9 +1,6 @@
 #include "main.h"
 
 
-
-
-
 /**
  * start_shell - starting msg to my shell
  */
@@ -24,7 +21,7 @@ int change_dir(char *argv[])
 {
 	if (argv[1] == NULL)
 	{
-		chdir(_getenv("HOME"));
+		chdir(getenv("HOME"));
 		return (1);
 	}
 	else if (str_cmp(argv[1], "-") == 0)
@@ -40,7 +37,7 @@ int change_dir(char *argv[])
 			return (-1);
 		}
 	}
-	return (0);
+	return (1);
 }
 
 
@@ -60,7 +57,7 @@ char **tokenize(char *argv[], ssize_t chars_read, char *lineptr, char *linecpy)
 	const char *delims;
 	ssize_t tokens_count = 0, i, j;
 
-	delims = " \n";
+	delims = " \n\t\r";
 	linecpy = malloc(sizeof(char) * chars_read);
 	if (linecpy == NULL)
 		free(lineptr);
@@ -110,13 +107,12 @@ char **tokenize(char *argv[], ssize_t chars_read, char *lineptr, char *linecpy)
 int main(int argc, char **argv)
 {
 	ssize_t chars_read;
-	size_t n;
+	size_t n = 0;
 	char *lineptr = NULL, *linecpy = NULL;
 	char *currentDirectory = (char *) calloc(1024, sizeof(char));
 
-	vars_list = environ_vars_list();
+	/*vars_list = environ_vars_list();*/
 	(void)argc;
-	n = 0;
 	while (1)
 	{
 		init();
@@ -136,6 +132,6 @@ int main(int argc, char **argv)
 	}
 	free(lineptr);
 	free(currentDirectory);
-	free_list(vars_list);
+	/*free_list(vars_list);*/
 	return (0);
 }

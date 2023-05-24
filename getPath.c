@@ -31,7 +31,7 @@ char *getPath(char *command)
 	char err[50] = "The entered variable %s is not found.\n";
 
 	env = "PATH";
-	path = _getenv(env);
+	path = getenv(env);
 	if (!path)
 	{
 		write(STDERR_FILENO, &err, 40);
