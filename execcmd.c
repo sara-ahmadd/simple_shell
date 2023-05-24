@@ -19,6 +19,7 @@ int execcmd(char *argv[])
 	if (pid == -1)
 	{
 		perror("Error with fork.");
+		return (-1);
 	}
 
 	if (pid == 0)
@@ -28,7 +29,8 @@ int execcmd(char *argv[])
 		x = execve(path, argv, NULL);
 		if (x == -1)
 		{
-			write(STDERR_FILENO, "./hsh: No such file or directory\n", 34);
+			write(STDERR_FILENO, "./hsh: No such file or directory", 32);
+			return (-1);
 		}
 	}
 	else

@@ -33,7 +33,8 @@ int change_dir(char *argv[])
 	{
 		if (chdir(argv[1]) == -1)
 		{
-			fprintf(stderr, "%s: no such directory is found.\n", argv[1]);
+			printf("%s: no such directory is found.\n", argv[1]);
+			return (-1);
 		}
 	}
 	return (1);
@@ -50,54 +51,50 @@ int change_dir(char *argv[])
  * Return: the tokens resulted
  */
 
-
-char **tokenize(char **argv, ssize_t chars_read, char *lineptr)
+char **tokenize(char *argv[], ssize_t chars_read, char *lineptr, char *linecpy)
 {
-  char *token;
-  const char *delims;
-  ssize_t tokens_count = 0, i, j;
-  char *linecpy = malloc(sizeof(char) * chars_read);
+	char *token;
+	const char *delims;
+	ssize_t tokens_count = 0, i, j;
 
-  delims = " \n\t\r";
-  if (linecpy == NULL)
-  {
-    free(lineptr);
-    exit(0);
-  }
-  strcpy(linecpy, lineptr);
-  token = strtok(lineptr, delims);
-  while (token != NULL)
-  {
-    tokens_count++;
-    token = strtok(NULL, delims);
-  }
-  tokens_count++;
-  argv = malloc(sizeof(char *) * tokens_count);
-  if (argv == NULL)
-  {
-    free(linecpy);
-    free(lineptr);
-    exit(0);
-  }
-  token = strtok(linecpy, delims);
-  for (i = 0; token != NULL; i++)
-  {
-    argv[i] = malloc(sizeof(char) * (strlen(token) + 1));
-    if (argv[i] == NULL)
-    {
-      for (j = 0; j < i; j++)
-        free(argv[j]);
-      free(argv);
-      free(linecpy);
-      free(lineptr);
-      exit(0);
-    }
-    strcpy(argv[i], token);
-    token = strtok(NULL, delims);
-  }
-  free(linecpy);
-  return argv;
+	delims = " \n\t\r";
+	linecpy = malloc(sizeof(char) * chars_read);
+	if (linecpy == NULL)
+		free(lineptr);
+	str_cpy(linecpy, lineptr);
+	token = strtok(lineptr, delims);
+	while (token != NULL)
+	{
+		tokens_count++;
+		token = strtok(NULL, delims);
+	}
+	tokens_count++;
+	argv = malloc(sizeof(char *) * tokens_count);
+	if (argv == NULL)
+	{
+		free(linecpy);
+		free(lineptr);
+		exit(0);
+	}
+	token = strtok(linecpy, delims);
+	for (i = 0; token != NULL; i++)
+	{
+		argv[i] = malloc(sizeof(char) * strlen(token));
+		if (argv[i] == NULL)
+		{
+			for (j = 0; j < i; j++)
+				free(argv[j]);
+			free(argv);
+			free(linecpy);
+			free(lineptr);
+			exit(0);
+		}
+		str_cpy(argv[i], token);
+		token = strtok(NULL, delims);
+	}
+	return (argv);
 }
+
 
 /**
  * main - the entery point to the program
@@ -106,44 +103,15 @@ char **tokenize(char **argv, ssize_t chars_read, char *lineptr)
  *
  * Return: zero if success or non-zero value on failure
  */
+
 int main(int argc, char **argv)
-{
-  ssize_t chars_read;
-  size_t n = 0;
-  int i = 0;
-  char *lineptr = NULL;
-
-  (void)argc;
-  while (1)
-  {
-    init();
-    chars_read = getline(&lineptr, &n, stdin);
-    if (chars_read == -1)
-    {
-      free(lineptr);
-      exit(0);
-    }
-    argv = tokenize(argv, chars_read, lineptr);
-    if (argv[0] == NULL)
-      continue;
-    comm_handle(argv);
-    for (i = 0; argv[i] != NULL; i++)
-    {
-      free(argv[i]);
-    }
-    free(argv);
-  }
-  return 0;
-} 
-
-/*int main(int argc, char **argv)
 {
 	ssize_t chars_read;
 	size_t n = 0;
 	char *lineptr = NULL, *linecpy = NULL;
 	char *currentDirectory = (char *) calloc(1024, sizeof(char));
 
-	vars_list = environ_vars_list();
+	/*vars_list = environ_vars_list();*/
 	(void)argc;
 	while (1)
 	{
@@ -164,7 +132,6 @@ int main(int argc, char **argv)
 	}
 	free(lineptr);
 	free(currentDirectory);
-	free_list(vars_list);
+	/*free_list(vars_list);*/
 	return (0);
 }
-*/
