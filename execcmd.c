@@ -29,8 +29,7 @@ int execcmd(char *argv[])
 		x = execve(path, argv, NULL);
 		if (x == -1)
 		{
-			perror("Error: ");
-			exit(EXIT_FAILURE);
+			perror("./hsh: No such file or directory");
 		}
 	}
 	else

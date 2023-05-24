@@ -44,7 +44,7 @@ char *getPath(char *command)
 	{
 		token_len = str_len(token);
 		file_path = malloc(token_len + cmd_len + (2 * sizeof(char)));
-		helper(file_path, command, token);
+	helper(file_path, command, token);
 		i = stat(file_path, &buff);
 		if (i == 0)
 		{
