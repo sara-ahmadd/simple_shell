@@ -39,7 +39,7 @@ char *getPath(char *command)
 	}
 	cmd_len = str_len(command);
 	path_copy = str_dup(path);
-	token = strtok(path_copy, ":");
+	token = my_strtok(path_copy, ":");
 	while (token != NULL)
 	{
 		token_len = str_len(token);
@@ -54,7 +54,7 @@ char *getPath(char *command)
 		else
 		{
 			free(file_path);
-			token = strtok(NULL, ":");
+			token = my_strtok(NULL, ":");
 		}
 	}
 	free(path_copy);

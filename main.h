@@ -9,6 +9,8 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <fcntl.h>
+#include <stddef.h>
+
 
 #define MAX_HISTORY 150
 #define MAX_CHAR 100
@@ -46,6 +48,9 @@ int my_system(char *command);
 int set_env(char **argv);
 int unset_env(char **argv);
 void print_env(char *argv[]);
+char *my_strtok(char *srcString, char *delim);
+
+
 
 /*linked list functions*/
 list_t *insert_node_end(list_t **root, char *str1, char *str2);
