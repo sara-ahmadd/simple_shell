@@ -17,8 +17,8 @@ int set_env(char *argv[])
 	if (setenv(argv[1], argv[2], 1) != 0)
 	{
 		perror("Error ");
-        }
-        return (1);
+	}
+	return (1);
 }
 
 /**
@@ -64,13 +64,13 @@ void print_env(char *argv[])
 			i++;
 		}
 	}
-        name = getenv(argv[1]);
+	name = getenv(argv[1]);
 	if (name == NULL)
 	{
-                exit(0);
-        }
-        else
-        {
+		exit(0);
+	}
+	else
+	{
 		printf("%s\n", name);
 	}
 }
