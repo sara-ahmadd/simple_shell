@@ -11,8 +11,7 @@ int set_env(char *argv[])
 	if (argv[1] == NULL || argv[2] == NULL)
 	{
 		write(STDERR_FILENO, "Too few arguments.\n", 19);
-		exit(0);
-
+                return (1);
 	}
 	if (setenv(argv[1], argv[2], 1) != 0)
 	{
@@ -33,7 +32,7 @@ int unset_env(char *argv[])
 	if (argv[1] == NULL)
 	{
                 write(STDERR_FILENO, "Too few arguments.\n", 19);
-		exit(0);
+                return (1);
 	}
 	if (getenv(argv[1]) != NULL)
 	{
