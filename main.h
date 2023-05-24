@@ -38,7 +38,7 @@ void init(void);
 void env_vars(char *argv[]);
 void comm_handle(char *argv[]);
 int change_dir(char *argv[]);
-void exit_builtin(char *argv[]);
+int exit_builtin(void);
 int execcmd(char **argv);
 char *_getenv(char *name);
 char *getPath(char *command);

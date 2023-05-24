@@ -7,10 +7,7 @@
  * Return: void
  */
 
-void exit_builtin(char *argv[])
+int exit_builtin(void)
 {
-	if (strcmp(argv[0], "exit") == 0)
-	{
 		exit(0);
-	}
 }

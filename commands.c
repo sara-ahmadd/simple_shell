@@ -27,7 +27,7 @@ void comm_handle(char *argv[])
 	}
 	else if (str_cmp(argv[0], "exit") == 0)
 	{
-		exit_builtin(argv);
+		exit_builtin();
 	}
 	else if (str_cmp(argv[0], "cd") == 0)
 	{
