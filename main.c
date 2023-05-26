@@ -1,134 +1,90 @@
-#include "main.h"
-
+#include "shell.h"
 
 /**
- * start_shell - starting msg to my shell
+ * main - Simple Shell (Hsh)
+ * @argc: Argument Count
+ * @argv:Argument Value
+ * Return: Exit Value By Status
  */
 
-void start_shell(void)
+int main(__attribute__((unused)) int argc, char **argv)
 {
-	char *prompt = "(Simple_Shell:)";
+	char *input, **cmd;
+	int counter = 0, statue = 1, st = 0;
 
-	printf("%s ", prompt);
-}
-/**
- * change_dir - change directory
- * @argv: array of arguments
- *
- * Return: 0 on success
- */
-int change_dir(char *argv[])
-{
-	if (argv[1] == NULL)
+	if (argv[1] != NULL)
+		read_file(argv[1], argv);
+	signal(SIGINT, signal_to_handel);
+	while (statue)
 	{
-		chdir(getenv("HOME"));
-		return (1);
-	}
-	else if (str_cmp(argv[1], "-") == 0)
-	{
-		chdir("/");
-		return (1);
-	}
-	else
-	{
-		if (chdir(argv[1]) == -1)
+		counter++;
+		if (isatty(STDIN_FILENO))
+			prompt();
+		input = _getline();
+		if (input[0] == '\0')
 		{
-			printf("%s: no such directory is found.\n", argv[1]);
-			return (-1);
-		}
-	}
-	return (1);
-}
-
-
-/**
- * tokenize - split string input into tokens
- * @argv: the input string
- * @chars_read: number of characters
- * @lineptr: pointer to the entered line
- * @linecpy: copy of the entered line
- *
- * Return: the tokens resulted
- */
-
-char **tokenize(char *argv[], ssize_t chars_read, char *lineptr, char *linecpy)
-{
-	char *token;
-	char *delims;
-	ssize_t tokens_count = 0, i, j;
-
-	delims = " \n\t\r";
-	linecpy = malloc(sizeof(char) * chars_read);
-	if (linecpy == NULL)
-		free(lineptr);
-	str_cpy(linecpy, lineptr);
-	token = my_strtok(lineptr, delims);
-	while (token != NULL)
-	{
-		tokens_count++;
-		token = my_strtok(NULL, delims);
-	}
-	tokens_count++;
-	argv = malloc(sizeof(char *) * tokens_count);
-	if (argv == NULL)
-	{
-		free(linecpy);
-		free(lineptr);
-		exit(0);
-	}
-	token = my_strtok(linecpy, delims);
-	for (i = 0; token != NULL; i++)
-	{
-		argv[i] = malloc(sizeof(char) * strlen(token));
-		if (argv[i] == NULL)
-		{
-			for (j = 0; j < i; j++)
-				free(argv[j]);
-			free(argv);
-			free(linecpy);
-			free(lineptr);
-			exit(0);
-		}
-		str_cpy(argv[i], token);
-		token = my_strtok(NULL, delims);
-	}
-	return (argv);
-}
-
-
-/**
- * main - the entery point to the program
- * @argc: number of arguments entering to the program
- * @argv: array containing the arguments
- *
- * Return: zero if success or non-zero value on failure
- */
-
-int main(int argc, char **argv)
-{
-	ssize_t chars_read;
-	size_t n = 0;
-	char *lineptr = NULL, *linecpy = NULL;
-
-	/*vars_list = environ_vars_list();*/
-	(void)argc;
-	while (1)
-	{
-		init();
-		chars_read = getline(&lineptr, &n, stdin);
-		if (chars_read == -1)
-		{
-			free(lineptr);
-			exit(0);
-		}
-		argv = tokenize(argv, chars_read, lineptr, linecpy);
-		if (argv[0] == NULL)
 			continue;
-		comm_handle(argv);
-		free(linecpy);
-		free(argv);
+		}
+		history(input);
+		cmd = parse_cmd(input);
+		if (_strcmp(cmd[0], "exit") == 0)
+		{
+			exit_bul(cmd, input, argv, counter);
+		}
+		else if (check_builtin(cmd) == 0)
+		{
+			st = handle_builtin(cmd, st);
+			free_all(cmd, input);
+			continue;
+		}
+		else
+		{
+			st = check_cmd(cmd, input, counter, argv);
+
+		}
+		free_all(cmd, input);
 	}
-	free(lineptr);
-	/*free_list(vars_list);*/
-	return (0);
+	return (statue);
+}
+/**
+ * check_builtin - check builtin
+ *
+ * @cmd:command to check
+ * Return: 0 Succes -1 Fail
+ */
+int check_builtin(char **cmd)
+{
+	bul_t fun[] = {
+		{"cd", NULL},
+		{"help", NULL},
+		{"echo", NULL},
+		{"history", NULL},
+		{NULL, NULL}
+	};
+	int i = 0;
+		if (*cmd == NULL)
+	{
+		return (-1);
+	}
+
+	while ((fun + i)->command)
+	{
+		if (_strcmp(cmd[0], (fun + i)->command) == 0)
+			return (0);
+		i++;
+	}
+	return (-1);
+}
+/**
+ * creat_envi - Creat Array of Enviroment Variable
+ * @envi: Array of Enviroment Variable
+ * Return: Void
+ */
+void creat_envi(char **envi)
+{
+	int ii;
+
+	for (ii = 0; environ[ii]; ii++)
+		envi[ii] = _strdup(environ[ii]);
+	envi[ii] = NULL;
 }
