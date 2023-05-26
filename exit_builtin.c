@@ -2,7 +2,6 @@
 
 /**
  * exit_builtin - exit the shell
- * @argv: list of arguments
  *
  * Return: void
  */

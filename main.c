@@ -54,7 +54,7 @@ int change_dir(char *argv[])
 char **tokenize(char *argv[], ssize_t chars_read, char *lineptr, char *linecpy)
 {
 	char *token;
-	const char *delims;
+	char *delims;
 	ssize_t tokens_count = 0, i, j;
 
 	delims = " \n\t\r";
@@ -62,11 +62,11 @@ char **tokenize(char *argv[], ssize_t chars_read, char *lineptr, char *linecpy)
 	if (linecpy == NULL)
 		free(lineptr);
 	str_cpy(linecpy, lineptr);
-	token = strtok(lineptr, delims);
+	token = my_strtok(lineptr, delims);
 	while (token != NULL)
 	{
 		tokens_count++;
-		token = strtok(NULL, delims);
+		token = my_strtok(NULL, delims);
 	}
 	tokens_count++;
 	argv = malloc(sizeof(char *) * tokens_count);
@@ -76,7 +76,7 @@ char **tokenize(char *argv[], ssize_t chars_read, char *lineptr, char *linecpy)
 		free(lineptr);
 		exit(0);
 	}
-	token = strtok(linecpy, delims);
+	token = my_strtok(linecpy, delims);
 	for (i = 0; token != NULL; i++)
 	{
 		argv[i] = malloc(sizeof(char) * strlen(token));
@@ -90,7 +90,7 @@ char **tokenize(char *argv[], ssize_t chars_read, char *lineptr, char *linecpy)
 			exit(0);
 		}
 		str_cpy(argv[i], token);
-		token = strtok(NULL, delims);
+		token = my_strtok(NULL, delims);
 	}
 	return (argv);
 }
@@ -109,7 +109,6 @@ int main(int argc, char **argv)
 	ssize_t chars_read;
 	size_t n = 0;
 	char *lineptr = NULL, *linecpy = NULL;
-	char *currentDirectory = (char *) calloc(1024, sizeof(char));
 
 	/*vars_list = environ_vars_list();*/
 	(void)argc;
@@ -119,9 +118,8 @@ int main(int argc, char **argv)
 		chars_read = getline(&lineptr, &n, stdin);
 		if (chars_read == -1)
 		{
-			printf("Exit Myshell\n");
 			free(lineptr);
-			return (-1);
+			exit(0);
 		}
 		argv = tokenize(argv, chars_read, lineptr, linecpy);
 		if (argv[0] == NULL)
@@ -131,7 +129,6 @@ int main(int argc, char **argv)
 		free(argv);
 	}
 	free(lineptr);
-	free(currentDirectory);
 	/*free_list(vars_list);*/
 	return (0);
 }
